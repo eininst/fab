@@ -1,5 +1,7 @@
 # fab
 # 发布脚本说明
+pip install fabric
+
 fab prod:q-app-web,branch=master start
 
 fab prod:q-app-web,branch=master,profile=xxx start
