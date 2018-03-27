@@ -279,10 +279,14 @@ def _load_config(section, project):
     if not cf.has_section(section):
         _error(u'无效的配置文件:%s' % section)
 
-    if not cf.has_option(section, 'git'):
-        _error(u'git地址不能为空')
-
     config = Config()
+
+    if cf.has_option(section, 'git'):
+        config.git_address = cf.get(section, 'git')
+    elif cf.has_option(g, 'git'):
+        config.git_address = cf.get(g, 'git')
+    else:
+        _error(u'git地址不能为空')
 
     if cf.has_option(section, 'source_path'):
         config.source_path = cf.get(section, 'source_path')
@@ -317,7 +321,6 @@ def _load_config(section, project):
     elif cf.has_option(g, 'nginx'):
         config.nginx_path = cf.get(g, 'nginx')
 
-    config.git_address = cf.get(section, 'git')
     config.git_root_name = config.git_address[config.git_address.rindex('/') + 1:config.git_address.rindex('.git')]
     config.source_project_path = '{}/{}'.format(config.source_path, config.git_root_name)
     config.module_path = '{}/{}'.format(config.source_project_path, project)
